@@ -53,12 +53,10 @@ pub fn gcd<N: Num + Copy + PartialOrd>(a: N, b: N) -> N {
     let mut n = a;
     let mut m = b;
 
-    while n != m {
-        if n > m {
-            n = n - m;
-        } else {
-            m = m - n;
-        }
+    while !m.is_zero() {
+        let t = m;
+        m = n % m;
+        n = t;
     }
 
     return n;
