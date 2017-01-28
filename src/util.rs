@@ -44,11 +44,11 @@ impl<N: Num + Copy + PartialOrd> Iterator for Primes<N> {
     }
 }
 
-pub fn lcm<N: Num + Copy + PartialOrd>(a: N, b: N) -> N {
+pub fn lcm<N: Num + Copy>(a: N, b: N) -> N {
     a / gcd(a, b) * b
 }
 
-pub fn gcd<N: Num + Copy + PartialOrd>(a: N, b: N) -> N {
+pub fn gcd<N: Num + Copy>(a: N, b: N) -> N {
 
     let mut n = a;
     let mut m = b;
@@ -123,7 +123,7 @@ impl<N: Num + Copy> Iterator for Collatz<N> {
     }
 }
 
-pub fn n_choose_k<N: Num + Copy + PartialOrd>(n: N, k: N) -> N {
+pub fn n_choose_k<N: Num + Copy>(n: N, k: N) -> N {
     let _1 = N::one();
 
     let mut a = _1;
