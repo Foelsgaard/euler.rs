@@ -122,3 +122,27 @@ impl<N: Num + Copy> Iterator for Collatz<N> {
         Some(current)
     }
 }
+
+pub fn n_choose_k<N: Num + Copy + PartialOrd>(n: N, k: N) -> N {
+    let _1 = N::one();
+
+    let mut a = _1;
+    let mut b = _1;
+
+    let mut i = _1;
+
+    // At each step the divisor and divident are divided by
+    // their gcd to mitigate the risk of them overflowing.
+    while i != k + _1 {
+        a = a * (n + _1 - i);
+        b = b * i;
+        let gcd = gcd(a, b);
+
+        a = a / gcd;
+        b = b / gcd;
+
+        i = i + _1;
+    }
+    
+    a / b
+}
