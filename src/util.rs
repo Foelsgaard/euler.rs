@@ -146,3 +146,30 @@ pub fn n_choose_k<N: Num + Copy>(n: N, k: N) -> N {
     
     a / b
 }
+
+pub struct Fibonacci<N> {
+    current: N,
+    next: N
+}
+
+impl<N: Num> Fibonacci<N> {
+    pub fn new() -> Fibonacci<N> {
+        Fibonacci{current: N::one(), next: N::one()}
+    }
+
+    pub fn from(a: N, b: N) -> Fibonacci<N> {
+        Fibonacci{current: a, next: b}
+    }
+}
+
+impl<N: Num + Clone> Iterator for Fibonacci<N> {
+    type Item = N;
+
+    fn next(&mut self) -> Option<N> {
+
+        self.next = self.current.clone() + self.next.clone();
+        self.current = self.next.clone() - self.current.clone();
+
+        return Some(self.next.clone() - self.current.clone());
+    }
+}
