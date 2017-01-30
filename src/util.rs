@@ -1,6 +1,7 @@
 extern crate num;
 
 use self::num::Num;
+use self::num::Integer;
 
 pub struct Primes<N: Num + Copy + PartialOrd> {
     primes: Vec<N>,
@@ -191,4 +192,16 @@ pub fn modular_pow(base: u64, exponent: u64, modulus: u64) -> u64 {
     }
 
     return result;
+}
+
+pub fn is_prime<N: Num + Integer + Clone>(n: N) -> bool {
+    let mut m = N::one() + N::one();
+    while m < n.clone() / (N::one() + N::one()) + N::one() {
+        if n.is_multiple_of(&m) {
+            return false;
+        }
+        m = m + N::one();
+    }
+
+    return true;
 }
