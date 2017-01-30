@@ -1,10 +1,11 @@
 // Project Euler: Problem 24
 
 fn main() {
+    let mut lexs =
+        LexicographicPermutations::from_with_index("0123456789",
+                                                   1000000 - 1);
 
-    let mut lexs = LexicographicPermutations::from("0123456789");
-
-    for s in lexs.nth(1000000 - 1) {
+    for s in lexs.next() {
         
         println!("The millionth lexicographic permutation \
                   of the characters \"0123456789\" is \"{}\".", s);
@@ -20,6 +21,14 @@ struct LexicographicPermutations {
 impl LexicographicPermutations {
 
     fn from(s: &str) -> LexicographicPermutations {
+
+        LexicographicPermutations::from_with_index(s, 0)
+
+    }
+
+    fn from_with_index(s: &str, i: usize) -> LexicographicPermutations {
+        assert!(i <= fac(s.len()), "Index exceeds number of permutations");
+        
         let mut chars: Vec<char> = s.chars().collect();
         chars.sort();
 
@@ -28,8 +37,7 @@ impl LexicographicPermutations {
         for c in chars {
             base.push(c);
         }
-        
-        LexicographicPermutations{base: base, index: 0}
+        LexicographicPermutations{base: base, index: i}
     }
 }
 
