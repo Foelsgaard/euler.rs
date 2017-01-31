@@ -195,6 +195,10 @@ pub fn modular_pow(base: u64, exponent: u64, modulus: u64) -> u64 {
 }
 
 pub fn is_prime<N: Num + Integer + Clone>(n: N) -> bool {
+    if n == N::one() {
+        return false;
+    }
+    
     let mut m = N::one() + N::one();
     while m < n.clone() / (N::one() + N::one()) + N::one() {
         if n.is_multiple_of(&m) {
