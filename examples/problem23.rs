@@ -1,67 +1,46 @@
 // Project Euler: Problem 23
 
 use std::iter::repeat;
+use std::collections::HashSet;
 
 fn main() {
 
     println!("Generating abundant numbers..");
 
-    let mut i = 0;
-
     let abundant: Vec<u64> = AbundantNumbers::new()
         .take_while(|&m| m < 28124)
-        .inspect(|_| {
+        .enumerate()
+        .map(|(i, n)| {
             if i % 1000 == 0 {
                 println!("{}", i);
             }
-            i += 1;
+            n
         })
         .collect();
 
     println!("Generating abundant sums..");
 
-    i = 0;
-
-    let mut abundant_sums: Vec<u64> = abundant
+    let abundant_sums: HashSet<u64> = abundant
         .iter()
         .enumerate()
         .flat_map(|(i, a)| {
             repeat(a).zip(abundant.iter().skip(i + 1))
         })
         .map(|(a,b)| a + b)
-        .inspect(|_| {
+        .enumerate()
+        .map(|(i, n)| {
             if i % 1000000 == 0 {
                 println!("{}", i);
             }
-            i += 1;
+            n
         })        
         .collect();
 
-    println!("Deduplicating sums..");
-
-    abundant_sums.sort();
-    abundant_sums.dedup();
-
-
     println!("Summing numbers that are not abundant sums..");
 
-    let mut sum = 0;
-    let mut abundant_sums_iter = abundant_sums.iter();
-
-    let mut a = abundant_sums_iter.next();
-    for n in 1..28124 {
-
-        match a {
-            None => sum += n,
-            Some(&m) => {
-                if n == m {
-                    a = abundant_sums_iter.next();
-                } else {
-                    sum += n;
-                }
-            }
-        }
-    }
+    let sum: u64 =(1..28124)
+        .filter(|n| !abundant_sums.contains(n))
+        .sum();
 
     println!("The sum of all numbers that are not abundant sums is {}.", sum);
  
