@@ -209,3 +209,54 @@ pub fn is_prime<N: Num + Integer + Clone>(n: N) -> bool {
 
     return true;
 }
+
+pub struct LexicographicPermutations {
+    base: String,
+    index: usize
+}
+
+impl LexicographicPermutations {
+
+    pub fn from(s: &str) -> LexicographicPermutations {
+        LexicographicPermutations::from_with_index(s, 0)
+    }
+
+    pub fn from_with_index(s: &str, i: usize) -> LexicographicPermutations {
+        LexicographicPermutations{base: String::from(s), index: i}
+    }
+
+}
+
+impl Iterator for LexicographicPermutations {
+
+    type Item = String;
+
+    fn next(&mut self) -> Option<String> {
+
+        fn fac(n: usize) -> usize {
+            match n {
+                0 => 1,
+                n => n * fac(n-1)
+            }
+        }
+
+        if self.index == fac(self.base.len()) {
+            return None;
+        }
+
+        let mut copy = self.base.clone();
+        let mut next = String::new();
+
+        while copy.len() > 0 {
+
+            let i = self.index / fac(copy.len()-1) % copy.len();
+
+            next.push(copy.remove(i));
+
+        }
+
+        self.index += 1;
+        
+        Some(next)
+    }
+}

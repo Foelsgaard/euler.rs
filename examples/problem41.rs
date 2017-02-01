@@ -4,6 +4,7 @@ extern crate euler;
 extern crate num;
 
 use euler::util::is_prime;
+use euler::util::LexicographicPermutations;
 
 fn main() {
 
@@ -32,55 +33,5 @@ fn main() {
 
     for p in largest_pandigital_prime {
         println!("The largest pandigital prime is {}.", p);
-    }
-}
-
-
-struct LexicographicPermutations {
-    base: String,
-    index: usize
-}
-
-impl LexicographicPermutations {
-
-    fn from(s: &str) -> LexicographicPermutations {
-
-        LexicographicPermutations{base: String::from(s), index: 0}
-
-    }
-
-}
-
-impl Iterator for LexicographicPermutations {
-
-    type Item = String;
-
-    fn next(&mut self) -> Option<String> {
-
-        if self.index == fac(self.base.len()) {
-            return None;
-        }
-
-        let mut copy = self.base.clone();
-        let mut next = String::new();
-
-        while copy.len() > 0 {
-
-            let i = self.index / fac(copy.len()-1) % copy.len();
-
-            next.push(copy.remove(i));
-
-        }
-
-        self.index += 1;
-        
-        Some(next)
-    }
-}
-
-fn fac(n: usize) -> usize {
-    match n {
-        0 => 1,
-        n => n * fac(n-1)
     }
 }
